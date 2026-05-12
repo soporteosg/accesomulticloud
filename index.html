@@ -6,61 +6,80 @@
     <title>Acceso Multicloud RDP</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <style>
-        body { background-color: #f8f9fa; padding-top: 50px; }
-        .card { box-shadow: 0 4px 6px rgba(0,0,0,0.1); border-radius: 12px; }
-        .card-header { border-radius: 12px 12px 0 0 !important; }
-        .status-card { transition: transform 0.2s; border: 2px solid; }
-        .status-card:hover { transform: scale(1.02); }
-        .card-body span { font-weight: bold; display: block; }
+        body { background-color: #f0f2f5; padding-top: 50px; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .card-main { box-shadow: 0 10px 25px rgba(0,0,0,0.1); border-radius: 15px; border: none; }
+        .card-header { border-radius: 15px 15px 0 0 !important; font-weight: bold; }
+        .status-card { 
+            transition: all 0.3s ease; 
+            border: 2px solid; 
+            border-radius: 10px;
+            background-color: #ffffff;
+        }
+        .status-card:hover { transform: translateY(-3px); box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+        .fw-bold-custom { font-weight: 600; color: #495057; }
+        #statusCards .col-6 { margin-bottom: 10px; }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card">
+            <div class="col-md-6 col-lg-5">
+                <div class="card card-main">
                     <div class="card-header bg-primary text-white text-center py-3">
-                        <h3 class="mb-0">Gestor de Acceso IP</h3>
+                        <h3 class="mb-0">Gestor de Acceso Multicloud</h3>
                     </div>
                     <div class="card-body p-4">
                         <form id="accessForm">
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Correo Electrónico</label>
-                                <input type="email" id="correo" class="form-control" placeholder="jhonny@empresa.com" required>
+                                <label class="form-label fw-bold-custom">Correo Corporativo</label>
+                                <input type="email" id="correo" class="form-control form-control-lg" placeholder="usuario@empresa.com" required>
                             </div>
+                            
                             <div class="mb-3">
-                                <label class="form-label fw-bold">Tu IP Actual (Detectada)</label>
-                                <input type="text" id="ip" class="form-control bg-light" readonly>
-                                <small class="text-muted">Detectamos tu IP automáticamente por seguridad.</small>
+                                <label class="form-label fw-bold-custom">Tu IP Pública Detectada</label>
+                                <div class="input-group">
+                                    <span class="input-group-text bg-white"><i class="bi bi-geo-alt"></i>🌐</span>
+                                    <input type="text" id="ip" class="form-control form-control-lg bg-light" readonly>
+                                </div>
+                                <small class="text-muted">Se usará esta IP para abrir los puertos RDP.</small>
                             </div>
-                            <div class="mb-3">
-                                <label class="form-label fw-bold">Ambientes a Actualizar</label>
-                                <div class="form-check mb-1">
-                                    <input class="form-check-input" type="checkbox" value="aws_a" id="check1" checked>
-                                    <label class="form-check-label" for="check1">Servidor AWS Principal</label>
-                                </div>
-                                <div class="form-check mb-1">
-                                    <input class="form-check-input" type="checkbox" value="aws_b" id="check2" checked>
-                                    <label class="form-check-label" for="check2">Servidor AWS Backup</label>
-                                </div>
-                                <div class="form-check mb-1">
-                                    <input class="form-check-input" type="checkbox" value="oci" id="check3" checked>
-                                    <label class="form-check-label" for="check3">Ambiente Banco G&T (OCI)</label>
-                                </div>
-                                <div class="form-check mb-3">
-                                    <input class="form-check-input" type="checkbox" value="huawei" id="check4" checked>
-                                    <label class="form-check-label" for="check4">Servidor Huawei Cloud</label>
+
+                            <div class="mb-4">
+                                <label class="form-label fw-bold-custom">Selecciona Ambientes:</label>
+                                <div class="p-3 border rounded bg-light">
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" value="aws_a" id="check1" checked>
+                                        <label class="form-check-label" for="check1">Servidor 44.217.52.70</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" value="aws_b" id="check2" checked>
+                                        <label class="form-check-label" for="check2">Servidor 3.230.109.172</label>
+                                    </div>
+                                    <div class="form-check mb-2">
+                                        <input class="form-check-input" type="checkbox" value="oci" id="check3" checked>
+                                        <label class="form-check-label" for="check3">Ambiente Banco G&T</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="huawei" id="check4" checked>
+                                        <label class="form-check-label" for="check4">Servidor 119.8.148.110</label>
+                                    </div>
                                 </div>
                             </div>
-                            <button type="submit" class="btn btn-success w-100 py-2 fw-bold" id="btnSubmit">Actualizar Accesos</button>
+
+                            <button type="submit" class="btn btn-primary w-100 btn-lg fw-bold" id="btnSubmit">
+                                ACTUALIZAR ACCESOS
+                            </button>
                         </form>
 
                         <div id="resultado" class="mt-4 d-none">
                             <hr>
-                            <h5 class="text-center mb-3">Estado de la Operación:</h5>
+                            <h6 class="text-center fw-bold text-secondary mb-3">RESULTADO DE SINCRONIZACIÓN</h6>
                             <div id="statusCards" class="row g-2">
                                 </div>
                         </div>
+                    </div>
+                    <div class="card-footer text-center bg-transparent border-0 pb-4">
+                        <small class="text-muted">Accesos</small>
                     </div>
                 </div>
             </div>
@@ -68,21 +87,29 @@
     </div>
 
     <script>
-        // Obtener la IP pública automáticamente al cargar
+        // 1. Detección automática de IP al entrar a la página
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
-            .then(data => document.getElementById('ip').value = data.ip);
+            .then(data => {
+                document.getElementById('ip').value = data.ip;
+            })
+            .catch(err => console.error("Error detectando IP:", err));
 
+        // 2. Manejo del Formulario
         document.getElementById('accessForm').addEventListener('submit', async (e) => {
             e.preventDefault();
+            
             const btn = document.getElementById('btnSubmit');
             const resDiv = document.getElementById('resultado');
             const statusCards = document.getElementById('statusCards');
             
+            // UI State: Procesando
             btn.disabled = true;
-            btn.innerText = "⏳ Procesando...";
-            statusCards.innerHTML = ""; // Limpiar resultados anteriores
+            btn.innerHTML = '<span class="spinner-border spinner-border-sm"></span> PROCESANDO...';
+            resDiv.classList.add('d-none');
+            statusCards.innerHTML = ""; 
 
+            // Construir Payload
             const payload = {
                 ip: document.getElementById('ip').value,
                 correo: document.getElementById('correo').value,
@@ -90,6 +117,7 @@
             };
 
             try {
+                // URL configurada en tu API Gateway (RUTA /update)
                 const LAMBDA_URL = 'https://tyq4kvs232.execute-api.us-east-1.amazonaws.com/update'; 
                 
                 const response = await fetch(LAMBDA_URL, {
@@ -99,44 +127,54 @@
                     body: JSON.stringify(payload)
                 });
                 
+                if (!response.ok) throw new Error("Error en la respuesta del servidor");
+
                 const result = await response.json();
                 
-                // Manejar si la respuesta viene stringificada o directa
+                // Extraer datos (maneja formato Proxy de Lambda o directo)
                 const data = result.body ? JSON.parse(result.body) : result;
                 
+                // Mostrar contenedor de resultados
                 resDiv.classList.remove('d-none');
 
-                // 1. Generar tarjetas de ÉXITO
-                data.actualizados.forEach(nube => {
-                    statusCards.innerHTML += `
-                        <div class="col-6">
-                            <div class="card status-card border-success bg-light h-100">
-                                <div class="card-body p-2 text-center d-flex align-items-center justify-content-center">
-                                    <span class="text-success small">✅ ${nube}</span>
+                // --- GENERAR TARJETAS DE ÉXITO ---
+                if (data.actualizados && data.actualizados.length > 0) {
+                    data.actualizados.forEach(nube => {
+                        statusCards.innerHTML += `
+                            <div class="col-6">
+                                <div class="card status-card border-success h-100 shadow-sm">
+                                    <div class="card-body p-2 text-center d-flex flex-column align-items-center justify-content-center">
+                                        <div class="text-success mb-1">✅</div>
+                                        <span class="text-success fw-bold" style="font-size: 0.8rem;">${nube}</span>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
-                });
+                            </div>`;
+                    });
+                }
 
-                // 2. Generar tarjetas de ERROR
-                Object.keys(data.errores).forEach(nube => {
-                    statusCards.innerHTML += `
-                        <div class="col-6">
-                            <div class="card status-card border-danger bg-light h-100">
-                                <div class="card-body p-2 text-center">
-                                    <span class="text-danger small">❌ ${nube}</span>
-                                    <p class="mb-0 text-muted" style="font-size: 0.65em;">${data.errores[nube]}</p>
+                // --- GENERAR TARJETAS DE ERROR ---
+                if (data.errores && Object.keys(data.errores).length > 0) {
+                    Object.keys(data.errores).forEach(nube => {
+                        statusCards.innerHTML += `
+                            <div class="col-6">
+                                <div class="card status-card border-danger h-100 shadow-sm">
+                                    <div class="card-body p-2 text-center">
+                                        <div class="text-danger mb-1">❌</div>
+                                        <span class="text-danger fw-bold" style="font-size: 0.8rem;">${nube}</span>
+                                        <p class="mb-0 text-muted" style="font-size: 0.6rem;">${data.errores[nube]}</p>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>`;
-                });
+                            </div>`;
+                    });
+                }
                 
             } catch (error) {
-                alert("❌ Error de conexión con el servidor");
-                console.error(error);
+                console.error("Error:", error);
+                alert("❌ Error de comunicación con la API. Verifica que la Lambda esté activa.");
             } finally {
+                // UI State: Finalizado
                 btn.disabled = false;
-                btn.innerText = "Actualizar Accesos";
+                btn.innerText = "ACTUALIZAR ACCESOS";
             }
         });
     </script>
