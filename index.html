@@ -79,19 +79,33 @@
             };
 
             try {
-                // URL API
-                const LAMBDA_URL = 'https://tyq4kvs232.execute-api.us-east-1.amazonaws.com';
+                // URL API (Asegúrate de que incluya la ruta final si la configuraste en API Gateway)
+                const LAMBDA_URL = 'https://tyq4kvs232.execute-api.us-east-1.amazonaws.com/acceso'; 
                 
                 const response = await fetch(LAMBDA_URL, {
                     method: 'POST',
+                    mode: 'cors', // Habilitar modo CORS explícito
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
                     body: JSON.stringify(payload)
                 });
+                
                 const result = await response.json();
                 
                 resDiv.classList.remove('d-none');
-                resPre.innerText = JSON.stringify(JSON.parse(result.body), null, 2);
+                
+                // Si la respuesta viene con un 'body' stringificado (formato Proxy)
+                if (result.body) {
+                    resPre.innerText = JSON.stringify(JSON.parse(result.body), null, 2);
+                } else {
+                    // Si la respuesta viene como JSON directo
+                    resPre.innerText = JSON.stringify(result, null, 2);
+                }
+                
             } catch (error) {
-                alert("Error al conectar con la API");
+                console.error("Error detallado:", error);
+                alert("Error al conectar con la API).");
             } finally {
                 btn.disabled = false;
                 btn.innerText = "Actualizar Accesos";
