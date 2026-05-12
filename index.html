@@ -42,7 +42,7 @@
                                     <input class="form-check-input" type="checkbox" value="oci" checked> Ambiente Banco G&T
                                 </div>
                                 <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" value="huawei" checked> Servidor
+                                    <input class="form-check-input" type="checkbox" value="huawei" checked> Servidor 119.8.148.110
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-success w-100" id="btnSubmit">Actualizar Accesos</button>
@@ -79,8 +79,8 @@
             };
 
             try {
-                // AQUÍ PEGARÁS LA URL DE TU API GATEWAY MAÑANA
-                const LAMBDA_URL = 'https://TU_API_GATEWAY_URL_AQUI.amazonaws.com/prod/acceso';
+                // URL API
+                const LAMBDA_URL = 'https://tyq4kvs232.execute-api.us-east-1.amazonaws.com';
                 
                 const response = await fetch(LAMBDA_URL, {
                     method: 'POST',
