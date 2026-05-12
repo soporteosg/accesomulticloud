@@ -87,7 +87,7 @@
     </div>
 
     <script>
-        // 1. Detección automática de IP al entrar a la página
+        // 1. Detección automática de IP 
         fetch('https://api.ipify.org?format=json')
             .then(res => res.json())
             .then(data => {
@@ -117,7 +117,7 @@
             };
 
             try {
-                // URL configurada en tu API Gateway (RUTA /update)
+                
                 const LAMBDA_URL = 'https://tyq4kvs232.execute-api.us-east-1.amazonaws.com/update'; 
                 
                 const response = await fetch(LAMBDA_URL, {
